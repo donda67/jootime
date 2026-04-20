@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'ai_assistant_service.dart';
 
 void main() {
   runApp(CollegeDuCloneApp());
@@ -82,7 +83,9 @@ class _CollegeDuCloneAppState extends State<CollegeDuCloneApp> {
         ),
         darkTheme: ThemeData.dark().copyWith(
           primaryColor: Colors.indigo,
-          colorScheme: ThemeData.dark().colorScheme.copyWith(primary: Colors.indigo),
+          colorScheme: ThemeData.dark().colorScheme.copyWith(
+            primary: Colors.indigo,
+          ),
           appBarTheme: AppBarTheme(backgroundColor: Colors.indigo[700]),
         ),
         themeMode: _themeMode,
@@ -99,7 +102,8 @@ class _CollegeDuCloneAppState extends State<CollegeDuCloneApp> {
 class AppStateWidget extends InheritedWidget {
   final _CollegeDuCloneAppState state;
 
-  AppStateWidget({required this.state, required Widget child}) : super(child: child);
+  AppStateWidget({required this.state, required Widget child})
+    : super(child: child);
 
   static _CollegeDuCloneAppState of(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<AppStateWidget>();
@@ -109,7 +113,8 @@ class AppStateWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant AppStateWidget oldWidget) {
-    return oldWidget.state._themeMode != state._themeMode || oldWidget.state._locale != state._locale;
+    return oldWidget.state._themeMode != state._themeMode ||
+        oldWidget.state._locale != state._locale;
   }
 }
 
@@ -126,7 +131,8 @@ class AppLocalizations {
     'ru': {
       'appTitle': 'CollegeDu Clone',
       'welcomeTitle': 'Добро пожаловать в CollegeDu',
-      'welcomeSubtitle': 'Пример учебного приложения — войдите, чтобы продолжить.',
+      'welcomeSubtitle':
+          'Пример учебного приложения — войдите, чтобы продолжить.',
       'nameLabel': 'ФИО',
       'loginButton': 'Войти',
       'emptyNameError': 'Пожалуйста, введите имя',
@@ -174,7 +180,8 @@ class AppLocalizations {
       'total': 'Итого:',
       'payNow': 'Оплатить онлайн',
       'orderConfirmed': 'Заказ принят',
-      'pickupReady': 'Заказ будет готов через 15 минут. Подойдите без задержек.',
+      'pickupReady':
+          'Заказ будет готов через 15 минут. Подойдите без задержек.',
       'phoneLabel': '+7 700 000 0000',
       'logoutTitle': 'Выход',
       'logoutConfirm': 'Вы действительно хотите выйти?',
@@ -200,9 +207,11 @@ class AppLocalizations {
       'aiResponse': 'Ответ ИИ: ',
       'quickQuestions': 'Быстрые вопросы',
       'question1': 'Расскажи о курсе математики',
-      'answer1': 'Курс математики включает алгебру, геометрию и анализ. Лекции по понедельникам в 9:00.',
+      'answer1':
+          'Курс математики включает алгебру, геометрию и анализ. Лекции по понедельникам в 9:00.',
       'question2': 'Какое расписание на сегодня?',
-      'answer2': 'Сегодня: Математика 9:00-10:30, Программирование 11:00-12:30.',
+      'answer2':
+          'Сегодня: Математика 9:00-10:30, Программирование 11:00-12:30.',
       'question3': 'Помоги с задачей по физике',
       'answer3': 'Конечно! Расскажите подробнее о задаче, и я помогу.',
       'question4': 'Что в меню столовой?',
@@ -257,7 +266,8 @@ class AppLocalizations {
       'total': 'Барлығы:',
       'payNow': 'Онлайн төлеу',
       'orderConfirmed': 'Тапсырыс қабылданды',
-      'pickupReady': 'Тапсырыс 15 минут ішінде дайын болады. Кешіктпей келіңіз.',
+      'pickupReady':
+          'Тапсырыс 15 минут ішінде дайын болады. Кешіктпей келіңіз.',
       'phoneLabel': '+7 700 000 0000',
       'logoutTitle': 'Шығу',
       'logoutConfirm': 'Шығатыныңызға сенімдісіз бе?',
@@ -283,9 +293,11 @@ class AppLocalizations {
       'aiResponse': 'ЖИ жауабы: ',
       'quickQuestions': 'Жылдам сұрақтар',
       'question1': 'Расскажи о курсе математики',
-      'answer1': 'Курс математики включает алгебру, геометрию и анализ. Лекции по понедельникам в 9:00.',
+      'answer1':
+          'Курс математики включает алгебру, геометрию и анализ. Лекции по понедельникам в 9:00.',
       'question2': 'Какое расписание на сегодня?',
-      'answer2': 'Сегодня: Математика 9:00-10:30, Программирование 11:00-12:30.',
+      'answer2':
+          'Сегодня: Математика 9:00-10:30, Программирование 11:00-12:30.',
       'question3': 'Помоги с задачей по физике',
       'answer3': 'Конечно! Расскажите подробнее о задаче, и я помогу.',
       'question4': 'Что в меню столовой?',
@@ -294,7 +306,8 @@ class AppLocalizations {
   };
 
   String t(String key, [Map<String, String>? params]) {
-    final values = _localizedValues[locale.languageCode] ?? _localizedValues['ru']!;
+    final values =
+        _localizedValues[locale.languageCode] ?? _localizedValues['ru']!;
     var result = values[key] ?? _localizedValues['ru']![key] ?? key;
     params?.forEach((name, value) {
       result = result.replaceAll('{$name}', value);
@@ -318,7 +331,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final name = _controller.text.trim();
     final loc = AppLocalizations.of(context);
     if (name.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.t('emptyNameError'))));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(loc.t('emptyNameError'))));
       return;
     }
     widget.onLogin(name);
@@ -349,20 +364,38 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 48),
               FlutterLogo(size: 96),
               SizedBox(height: 24),
-              Text(loc.t('welcomeTitle'), style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+              Text(
+                loc.t('welcomeTitle'),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
               SizedBox(height: 12),
-              Text(loc.t('welcomeSubtitle'), textAlign: TextAlign.center,),
+              Text(loc.t('welcomeSubtitle'), textAlign: TextAlign.center),
               SizedBox(height: 28),
               TextField(
                 controller: _controller,
-                decoration: InputDecoration(labelText: loc.t('nameLabel'), border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: loc.t('nameLabel'),
+                  border: OutlineInputBorder(),
+                ),
               ),
               SizedBox(height: 12),
-              ElevatedButton(onPressed: _tryLogin, child: Text(loc.t('loginButton'))),
+              ElevatedButton(
+                onPressed: _tryLogin,
+                child: Text(loc.t('loginButton')),
+              ),
               SizedBox(height: 16),
-              Text(loc.t('testDataHint'), textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
+              Text(
+                loc.t('testDataHint'),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
               SizedBox(height: 24),
-              Text(loc.t('demoNote'), textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
+              Text(
+                loc.t('demoNote'),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
             ],
           ),
         ),
@@ -387,9 +420,24 @@ class _MainScreenState extends State<MainScreen> {
   bool _notifyEvents = true;
 
   final List<Course> courses = [
-    Course(id: 'c1', title: 'Математика 1', teacher: 'Проф. Петров', description: 'Базовая математика: алгебра, геометрия.'),
-    Course(id: 'c2', title: 'Программирование', teacher: 'Иванова А.', description: 'Введение в Dart и Flutter.'),
-    Course(id: 'c3', title: 'Физика', teacher: 'Сидоров', description: 'Механика, термодинамика.'),
+    Course(
+      id: 'c1',
+      title: 'Математика 1',
+      teacher: 'Проф. Петров',
+      description: 'Базовая математика: алгебра, геометрия.',
+    ),
+    Course(
+      id: 'c2',
+      title: 'Программирование',
+      teacher: 'Иванова А.',
+      description: 'Введение в Dart и Flutter.',
+    ),
+    Course(
+      id: 'c3',
+      title: 'Физика',
+      teacher: 'Сидоров',
+      description: 'Механика, термодинамика.',
+    ),
   ];
 
   final List<MenuItem> menu = [
@@ -402,7 +450,12 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Grade> grades = [
     Grade(subject: 'Математика', semester1: 4, semester2: 5, average: 4.5),
-    Grade(subject: 'Программирование', semester1: 5, semester2: 5, average: 5.0),
+    Grade(
+      subject: 'Программирование',
+      semester1: 5,
+      semester2: 5,
+      average: 5.0,
+    ),
     Grade(subject: 'Физика', semester1: 4, semester2: 4, average: 4.0),
     Grade(subject: 'Химия', semester1: 5, semester2: 4, average: 4.5),
     Grade(subject: 'Қазақ тілі', semester1: 4, semester2: 4, average: 4.0),
@@ -410,14 +463,40 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final List<Event> events = [
-    Event(id: 'e1', title: 'Олимпиада по математике', description: 'Международная олимпиада по математике для студентов.', date: '15.05.2026', location: 'Главный зал'),
-    Event(id: 'e2', title: 'Конференция по ИТ', description: 'Ежегодная конференция по информационным технологиям.', date: '20.05.2026', location: 'Аудитория 201'),
-    Event(id: 'e3', title: 'Спортфест', description: 'Фестиваль спортивных мероприятий.', date: '25.05.2026', location: 'Стадион'),
+    Event(
+      id: 'e1',
+      title: 'Олимпиада по математике',
+      description: 'Международная олимпиада по математике для студентов.',
+      date: '15.05.2026',
+      location: 'Главный зал',
+    ),
+    Event(
+      id: 'e2',
+      title: 'Конференция по ИТ',
+      description: 'Ежегодная конференция по информационным технологиям.',
+      date: '20.05.2026',
+      location: 'Аудитория 201',
+    ),
+    Event(
+      id: 'e3',
+      title: 'Спортфест',
+      description: 'Фестиваль спортивных мероприятий.',
+      date: '25.05.2026',
+      location: 'Стадион',
+    ),
   ];
 
   final List<Announcement> announcements = [
-    Announcement(author: 'Куратор', time: '09:00', message: 'Собрание группы завтра в 16:00 в аудитории 201.'),
-    Announcement(author: 'Куратор', time: '13:30', message: 'Пожалуйста, заполните анкеты для практики до конца недели.'),
+    Announcement(
+      author: 'Куратор',
+      time: '09:00',
+      message: 'Собрание группы завтра в 16:00 в аудитории 201.',
+    ),
+    Announcement(
+      author: 'Куратор',
+      time: '13:30',
+      message: 'Пожалуйста, заполните анкеты для практики до конца недели.',
+    ),
   ];
 
   void _onItemTapped(int index) {
@@ -430,11 +509,20 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
     final pages = [
-      HomePage(userName: widget.userName, courses: courses, events: events, announcements: announcements),
+      HomePage(
+        userName: widget.userName,
+        courses: courses,
+        events: events,
+        announcements: announcements,
+      ),
       MenuPage(menu: menu),
       JournalPage(grades: grades),
       CoursesPage(courses: courses),
-      ProfilePage(userName: widget.userName, onLogout: widget.onLogout, announcements: announcements),
+      ProfilePage(
+        userName: widget.userName,
+        onLogout: widget.onLogout,
+        announcements: announcements,
+      ),
     ];
 
     return Scaffold(
@@ -444,16 +532,33 @@ class _MainScreenState extends State<MainScreen> {
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: loc.t('homeGreeting').split(',').first),
-          BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: loc.t('menuPageTitle')),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: loc.t('journalTitle')),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: loc.t('coursesTitle')),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: loc.t('profileTitle')),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: loc.t('homeGreeting').split(',').first,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant_menu),
+            label: loc.t('menuPageTitle'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: loc.t('journalTitle'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: loc.t('coursesTitle'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: loc.t('profileTitle'),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => AIAssistantPage()));
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => AIAssistantPage()));
         },
         child: Icon(Icons.smart_toy),
         tooltip: loc.t('aiAssistantTitle'),
@@ -468,7 +573,12 @@ class Course {
   final String teacher;
   final String description;
 
-  Course({required this.id, required this.title, required this.teacher, required this.description});
+  Course({
+    required this.id,
+    required this.title,
+    required this.teacher,
+    required this.description,
+  });
 }
 
 class MenuItem {
@@ -491,14 +601,24 @@ class Event {
   final String description;
   final String date;
   final String location;
-  Event({required this.id, required this.title, required this.description, required this.date, required this.location});
+  Event({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.date,
+    required this.location,
+  });
 }
 
 class Announcement {
   final String author;
   final String time;
   final String message;
-  Announcement({required this.author, required this.time, required this.message});
+  Announcement({
+    required this.author,
+    required this.time,
+    required this.message,
+  });
 }
 
 class Grade {
@@ -506,7 +626,12 @@ class Grade {
   final int semester1;
   final int semester2;
   final double average;
-  Grade({required this.subject, required this.semester1, required this.semester2, required this.average});
+  Grade({
+    required this.subject,
+    required this.semester1,
+    required this.semester2,
+    required this.average,
+  });
 }
 
 class FacilityStatus {
@@ -526,7 +651,12 @@ class HomePage extends StatelessWidget {
   final List<Course> courses;
   final List<Event> events;
   final List<Announcement> announcements;
-  HomePage({required this.userName, required this.courses, required this.events, required this.announcements});
+  HomePage({
+    required this.userName,
+    required this.courses,
+    required this.events,
+    required this.announcements,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -537,14 +667,25 @@ class HomePage extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(child: Text(userName.isNotEmpty ? userName[0] : 'U'), radius: 28),
+              CircleAvatar(
+                child: Text(userName.isNotEmpty ? userName[0] : 'U'),
+                radius: 28,
+              ),
               SizedBox(width: 12),
-              Expanded(child: Text(loc.t('homeGreeting', {'name': userName}), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+              Expanded(
+                child: Text(
+                  loc.t('homeGreeting', {'name': userName}),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
               Icon(Icons.notifications),
             ],
           ),
           SizedBox(height: 18),
-          Text(loc.t('myCourses'), style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text(
+            loc.t('myCourses'),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
           SizedBox(height: 8),
           SizedBox(
             height: 140,
@@ -557,7 +698,11 @@ class HomePage extends StatelessWidget {
                   padding: EdgeInsets.only(right: 12),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => CourseDetailPage(course: c)));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => CourseDetailPage(course: c),
+                        ),
+                      );
                     },
                     child: SizedBox(
                       width: 220,
@@ -569,15 +714,31 @@ class HomePage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(c.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              Text(
+                                c.title,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               SizedBox(height: 6),
-                              Text(c.teacher, style: TextStyle(color: Colors.grey[700])),
-                              SizedBox(height: 8),
-                              Flexible(
-                                child: Text(c.description, maxLines: 3, overflow: TextOverflow.ellipsis),
+                              Text(
+                                c.teacher,
+                                style: TextStyle(color: Colors.grey[700]),
                               ),
                               SizedBox(height: 8),
-                              Align(alignment: Alignment.bottomRight, child: Icon(Icons.arrow_forward)),
+                              Flexible(
+                                child: Text(
+                                  c.description,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Icon(Icons.arrow_forward),
+                              ),
                             ],
                           ),
                         ),
@@ -589,7 +750,10 @@ class HomePage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 18),
-          Text(loc.t('groupChatTitle'), style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text(
+            loc.t('groupChatTitle'),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
           SizedBox(height: 8),
           Card(
             elevation: 2,
@@ -598,24 +762,40 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(loc.t('onlyCurator'), style: TextStyle(fontWeight: FontWeight.w600)),
+                  Text(
+                    loc.t('onlyCurator'),
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
                   SizedBox(height: 8),
-                  ...announcements.map((announcement) => Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${announcement.author} • ${announcement.time}', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
-                        Text(announcement.message),
-                      ],
+                  ...announcements.map(
+                    (announcement) => Padding(
+                      padding: EdgeInsets.only(bottom: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${announcement.author} • ${announcement.time}',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(announcement.message),
+                        ],
+                      ),
                     ),
-                  )),
+                  ),
                   SizedBox(height: 8),
                   Align(
                     alignment: Alignment.centerRight,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => GroupChatPage(announcements: announcements)));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                GroupChatPage(announcements: announcements),
+                          ),
+                        );
                       },
                       child: Text(loc.t('openAnnouncements')),
                     ),
@@ -625,7 +805,10 @@ class HomePage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 18),
-          Text(loc.t('upcomingEvents'), style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text(
+            loc.t('upcomingEvents'),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
           SizedBox(height: 8),
           SizedBox(
             height: 120,
@@ -638,20 +821,28 @@ class HomePage extends StatelessWidget {
                   padding: EdgeInsets.only(right: 12),
                   child: GestureDetector(
                     onTap: () {
-                      showDialog(context: context, builder: (_) => AlertDialog(
-                        title: Text(e.title),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(e.description),
-                            SizedBox(height: 8),
-                            Text('${loc.t('eventDate')}: ${e.date}'),
-                            Text('${loc.t('eventLocation')}: ${e.location}'),
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text(e.title),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(e.description),
+                              SizedBox(height: 8),
+                              Text('${loc.t('eventDate')}: ${e.date}'),
+                              Text('${loc.t('eventLocation')}: ${e.location}'),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(loc.t('close')),
+                            ),
                           ],
                         ),
-                        actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text(loc.t('close')))],
-                      ));
+                      );
                     },
                     child: Card(
                       elevation: 3,
@@ -661,10 +852,21 @@ class HomePage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(e.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), maxLines: 2, overflow: TextOverflow.ellipsis),
+                            Text(
+                              e.title,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             Spacer(),
                             Text(e.date, style: TextStyle(color: Colors.grey)),
-                            Text(e.location, style: TextStyle(color: Colors.grey)),
+                            Text(
+                              e.location,
+                              style: TextStyle(color: Colors.grey),
+                            ),
                           ],
                         ),
                       ),
@@ -675,17 +877,36 @@ class HomePage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 18),
-          Text(loc.t('newsTitle'), style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text(
+            loc.t('newsTitle'),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
           SizedBox(height: 8),
-          NewsTile(title: 'Открытие новой лаборатории', subtitle: 'Вслед за обновлением кампуса...'),
-          NewsTile(title: 'Расписание экзаменов', subtitle: 'Посмотреть на странице Расписание.'),
+          NewsTile(
+            title: 'Открытие новой лаборатории',
+            subtitle: 'Вслед за обновлением кампуса...',
+          ),
+          NewsTile(
+            title: 'Расписание экзаменов',
+            subtitle: 'Посмотреть на странице Расписание.',
+          ),
           SizedBox(height: 24),
-          ElevatedButton.icon(onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => MenuPage(menu: [
-              MenuItem(name: 'Борщ', type: 'Обед', price: 350),
-              MenuItem(name: 'Котлета', type: 'Ужин', price: 420),
-            ])));
-          }, icon: Icon(Icons.restaurant), label: Text(loc.t('viewMenuButton'))),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MenuPage(
+                    menu: [
+                      MenuItem(name: 'Борщ', type: 'Обед', price: 350),
+                      MenuItem(name: 'Котлета', type: 'Ужин', price: 420),
+                    ],
+                  ),
+                ),
+              );
+            },
+            icon: Icon(Icons.restaurant),
+            label: Text(loc.t('viewMenuButton')),
+          ),
         ],
       ),
     );
@@ -706,11 +927,21 @@ class NewsTile extends StatelessWidget {
         subtitle: Text(subtitle),
         trailing: Icon(Icons.chevron_right),
         onTap: () {
-          showDialog(context: context, builder: (_) => AlertDialog(
-            title: Text(title),
-            content: Text(subtitle + '\n\n' + (loc.t('newsTitle') + ' здесь (mock).')),
-            actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text(loc.t('close')))],
-          ));
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text(title),
+              content: Text(
+                subtitle + '\n\n' + (loc.t('newsTitle') + ' здесь (mock).'),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(loc.t('close')),
+                ),
+              ],
+            ),
+          );
         },
       ),
     );
@@ -724,24 +955,30 @@ class CoursesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
-    return SafeArea(child: Scaffold(
-      appBar: AppBar(title: Text(loc.t('coursesTitle'))),
-      body: ListView.builder(
-        padding: EdgeInsets.all(12),
-        itemCount: courses.length,
-        itemBuilder: (_, i) {
-          final c = courses[i];
-          return Card(
-            child: ListTile(
-              title: Text(c.title),
-              subtitle: Text(c.teacher),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CourseDetailPage(course: c))),
-            ),
-          );
-        },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: Text(loc.t('coursesTitle'))),
+        body: ListView.builder(
+          padding: EdgeInsets.all(12),
+          itemCount: courses.length,
+          itemBuilder: (_, i) {
+            final c = courses[i];
+            return Card(
+              child: ListTile(
+                title: Text(c.title),
+                subtitle: Text(c.teacher),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => CourseDetailPage(course: c),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -753,26 +990,40 @@ class CourseDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(course.title),
-      ),
+      appBar: AppBar(title: Text(course.title)),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(course.teacher, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              course.teacher,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 8),
             Text(course.description),
             SizedBox(height: 16),
-            Text(loc.t('materialsTitle'), style: TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              loc.t('materialsTitle'),
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
             SizedBox(height: 8),
-            Expanded(child: ListView(
-              children: [
-                ListTile(leading: Icon(Icons.picture_as_pdf), title: Text(loc.t('lecture1')), trailing: Icon(Icons.download)),
-                ListTile(leading: Icon(Icons.picture_as_pdf), title: Text(loc.t('practice1')), trailing: Icon(Icons.download)),
-              ],
-            ))
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.picture_as_pdf),
+                    title: Text(loc.t('lecture1')),
+                    trailing: Icon(Icons.download),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.picture_as_pdf),
+                    title: Text(loc.t('practice1')),
+                    trailing: Icon(Icons.download),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -796,7 +1047,13 @@ class _MenuPageState extends State<MenuPage> {
     setState(() {
       _cart.add(item);
     });
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).t('itemAdded', {'item': item.name}))));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context).t('itemAdded', {'item': item.name}),
+        ),
+      ),
+    );
   }
 
   int get _cartTotal => _cart.fold(0, (sum, item) => sum + item.price);
@@ -805,79 +1062,103 @@ class _MenuPageState extends State<MenuPage> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
     final types = <String>{'Все', ...widget.menu.map((e) => e.type)};
-    final shown = filter == 'Все' ? widget.menu : widget.menu.where((m) => m.type == filter).toList();
+    final shown = filter == 'Все'
+        ? widget.menu
+        : widget.menu.where((m) => m.type == filter).toList();
 
-    return SafeArea(child: Scaffold(
-      appBar: AppBar(
-        title: Text(loc.t('menuPageTitle')),
-        actions: [
-          IconButton(
-            icon: Stack(
-              alignment: Alignment.center,
-              children: [
-                Icon(Icons.shopping_cart),
-                if (_cart.isNotEmpty) Positioned(
-                  right: 0,
-                  top: 8,
-                  child: CircleAvatar(radius: 8, backgroundColor: Colors.red, child: Text('${_cart.length}', style: TextStyle(fontSize: 10, color: Colors.white))),
-                ),
-              ],
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => PreOrderPage(cart: _cart, total: _cartTotal, onClear: () {
-                setState(() {
-                  _cart.clear();
-                });
-              })));
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(12),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 40,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: types.map((t) => Padding(
-                  padding: EdgeInsets.only(right: 8),
-                  child: ChoiceChip(
-                    label: Text(t == 'Все' ? loc.t('all') : t),
-                    selected: filter == t,
-                    onSelected: (_) {
-                      setState(() {
-                        filter = t;
-                      });
-                    },
-                  ),
-                )).toList(),
-              ),
-            ),
-            SizedBox(height: 12),
-            Expanded(
-              child: ListView.builder(
-                itemCount: shown.length,
-                itemBuilder: (_, i) {
-                  final m = shown[i];
-                  return Card(
-                    child: ListTile(
-                      title: Text(m.name),
-                      subtitle: Text('${m.type} • ${m.price}₸'),
-                      trailing: ElevatedButton(
-                        child: Text(loc.t('preorderButton')),
-                        onPressed: () => _addToCart(m),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(loc.t('menuPageTitle')),
+          actions: [
+            IconButton(
+              icon: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(Icons.shopping_cart),
+                  if (_cart.isNotEmpty)
+                    Positioned(
+                      right: 0,
+                      top: 8,
+                      child: CircleAvatar(
+                        radius: 8,
+                        backgroundColor: Colors.red,
+                        child: Text(
+                          '${_cart.length}',
+                          style: TextStyle(fontSize: 10, color: Colors.white),
+                        ),
                       ),
                     ),
-                  );
-                },
+                ],
               ),
-            )
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => PreOrderPage(
+                      cart: _cart,
+                      total: _cartTotal,
+                      onClear: () {
+                        setState(() {
+                          _cart.clear();
+                        });
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
+        body: Padding(
+          padding: EdgeInsets.all(12),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: types
+                      .map(
+                        (t) => Padding(
+                          padding: EdgeInsets.only(right: 8),
+                          child: ChoiceChip(
+                            label: Text(t == 'Все' ? loc.t('all') : t),
+                            selected: filter == t,
+                            onSelected: (_) {
+                              setState(() {
+                                filter = t;
+                              });
+                            },
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+              SizedBox(height: 12),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: shown.length,
+                  itemBuilder: (_, i) {
+                    final m = shown[i];
+                    return Card(
+                      child: ListTile(
+                        title: Text(m.name),
+                        subtitle: Text('${m.type} • ${m.price}₸'),
+                        trailing: ElevatedButton(
+                          child: Text(loc.t('preorderButton')),
+                          onPressed: () => _addToCart(m),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -886,7 +1167,11 @@ class PreOrderPage extends StatelessWidget {
   final int total;
   final VoidCallback onClear;
 
-  PreOrderPage({required this.cart, required this.total, required this.onClear});
+  PreOrderPage({
+    required this.cart,
+    required this.total,
+    required this.onClear,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -914,17 +1199,26 @@ class PreOrderPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  Text('${loc.t('total')} ${total}₸', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    '${loc.t('total')} ${total}₸',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      showDialog(context: context, builder: (_) => AlertDialog(
-                        title: Text(loc.t('orderConfirmed')),
-                        content: Text(loc.t('pickupReady')),
-                        actions: [
-                          TextButton(onPressed: () => Navigator.pop(context), child: Text(loc.t('close'))),
-                        ],
-                      ));
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text(loc.t('orderConfirmed')),
+                          content: Text(loc.t('pickupReady')),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(loc.t('close')),
+                            ),
+                          ],
+                        ),
+                      );
                       onClear();
                     },
                     child: Text(loc.t('payNow')),
@@ -955,15 +1249,25 @@ class JournalPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text(loc.t('journalSubtitle'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      child: Text(
+                        loc.t('journalSubtitle'),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => SchedulePage()));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => SchedulePage()),
+                        );
                       },
                       icon: Icon(Icons.calendar_today, size: 18),
                       label: Text(loc.t('showScheduleButton')),
-                      style: ElevatedButton.styleFrom(minimumSize: Size(140, 42)),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(140, 42),
+                      ),
                     ),
                   ],
                 ),
@@ -992,7 +1296,11 @@ class JournalPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSemesterList(BuildContext context, List<Grade> grades, int semester) {
+  Widget _buildSemesterList(
+    BuildContext context,
+    List<Grade> grades,
+    int semester,
+  ) {
     final loc = AppLocalizations.of(context);
     return ListView.separated(
       padding: EdgeInsets.all(16),
@@ -1003,16 +1311,28 @@ class JournalPage extends StatelessWidget {
         final value = semester == 1 ? grade.semester1 : grade.semester2;
         return ListTile(
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
-          title: Text(grade.subject, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          title: Text(
+            grade.subject,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
           trailing: Container(
             padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor.withOpacity(0.12),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text('$value', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+            child: Text(
+              '$value',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
           ),
-          subtitle: Text('${loc.t('averageLabel')}: ${grade.average.toStringAsFixed(1)}'),
+          subtitle: Text(
+            '${loc.t('averageLabel')}: ${grade.average.toStringAsFixed(1)}',
+          ),
         );
       },
     );
@@ -1038,9 +1358,27 @@ class _SchedulePageState extends State<SchedulePage> {
   ];
 
   final List<ScheduleClass> _classes = [
-    ScheduleClass(title: 'Информатика', subtitle: 'Теоретические занятия', time: '08:30-09:50', teacher: 'Е. Мирғалыйқызы', room: '216'),
-    ScheduleClass(title: 'Биология', subtitle: 'Теоретические занятия', time: '09:55-11:15', teacher: 'Мирғалыйқызы Ә.', room: '217'),
-    ScheduleClass(title: 'География', subtitle: 'Теоретические занятия', time: '11:30-12:50', teacher: 'А. Сергеев', room: '214'),
+    ScheduleClass(
+      title: 'Информатика',
+      subtitle: 'Теоретические занятия',
+      time: '08:30-09:50',
+      teacher: 'Е. Мирғалыйқызы',
+      room: '216',
+    ),
+    ScheduleClass(
+      title: 'Биология',
+      subtitle: 'Теоретические занятия',
+      time: '09:55-11:15',
+      teacher: 'Мирғалыйқызы Ә.',
+      room: '217',
+    ),
+    ScheduleClass(
+      title: 'География',
+      subtitle: 'Теоретические занятия',
+      time: '11:30-12:50',
+      teacher: 'А. Сергеев',
+      room: '214',
+    ),
   ];
 
   @override
@@ -1055,12 +1393,29 @@ class _SchedulePageState extends State<SchedulePage> {
           children: [
             Row(
               children: [
-                IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.arrow_back)),
-                Expanded(child: Text('апрель 2026 г.', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: Icon(Icons.arrow_back),
+                ),
+                Expanded(
+                  child: Text(
+                    'апрель 2026 г.',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(color: Colors.orange[100], borderRadius: BorderRadius.circular(20)),
-                  child: Text(loc.t('weekInfo'), style: TextStyle(color: Colors.orange[900], fontWeight: FontWeight.w600)),
+                  decoration: BoxDecoration(
+                    color: Colors.orange[100],
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    loc.t('weekInfo'),
+                    style: TextStyle(
+                      color: Colors.orange[900],
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -1079,19 +1434,44 @@ class _SchedulePageState extends State<SchedulePage> {
                       margin: EdgeInsets.only(right: 12),
                       padding: EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        color: selected ? Theme.of(context).primaryColor : Colors.grey[100],
+                        color: selected
+                            ? Theme.of(context).primaryColor
+                            : Colors.grey[100],
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: selected ? Theme.of(context).primaryColor : Colors.grey[300]!),
+                        border: Border.all(
+                          color: selected
+                              ? Theme.of(context).primaryColor
+                              : Colors.grey[300]!,
+                        ),
                       ),
                       child: Column(
                         children: [
-                          Text(day.weekday, style: TextStyle(color: selected ? Colors.white : Colors.black54, fontWeight: FontWeight.bold)),
+                          Text(
+                            day.weekday,
+                            style: TextStyle(
+                              color: selected ? Colors.white : Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           SizedBox(height: 8),
-                          Text('${day.date}', style: TextStyle(color: selected ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text(
+                            '${day.date}',
+                            style: TextStyle(
+                              color: selected ? Colors.white : Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           if (day.hasClass)
                             Padding(
                               padding: EdgeInsets.only(top: 8),
-                              child: Icon(Icons.circle, size: 8, color: selected ? Colors.white : Theme.of(context).primaryColor),
+                              child: Icon(
+                                Icons.circle,
+                                size: 8,
+                                color: selected
+                                    ? Colors.white
+                                    : Theme.of(context).primaryColor,
+                              ),
                             ),
                         ],
                       ),
@@ -1109,17 +1489,29 @@ class _SchedulePageState extends State<SchedulePage> {
                   final item = _classes[index];
                   return Card(
                     elevation: 2,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(item.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text(
+                            item.title,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           SizedBox(height: 10),
                           Row(
                             children: [
-                              Icon(Icons.description, size: 18, color: Theme.of(context).primaryColor),
+                              Icon(
+                                Icons.description,
+                                size: 18,
+                                color: Theme.of(context).primaryColor,
+                              ),
                               SizedBox(width: 8),
                               Expanded(child: Text(item.subtitle)),
                             ],
@@ -1127,7 +1519,11 @@ class _SchedulePageState extends State<SchedulePage> {
                           SizedBox(height: 12),
                           Row(
                             children: [
-                              Icon(Icons.access_time, size: 18, color: Theme.of(context).primaryColor),
+                              Icon(
+                                Icons.access_time,
+                                size: 18,
+                                color: Theme.of(context).primaryColor,
+                              ),
                               SizedBox(width: 8),
                               Text(item.time),
                             ],
@@ -1135,10 +1531,18 @@ class _SchedulePageState extends State<SchedulePage> {
                           SizedBox(height: 8),
                           Row(
                             children: [
-                              Icon(Icons.person, size: 18, color: Theme.of(context).primaryColor),
+                              Icon(
+                                Icons.person,
+                                size: 18,
+                                color: Theme.of(context).primaryColor,
+                              ),
                               SizedBox(width: 8),
                               Expanded(child: Text(item.teacher)),
-                              Icon(Icons.location_on, size: 18, color: Theme.of(context).primaryColor),
+                              Icon(
+                                Icons.location_on,
+                                size: 18,
+                                color: Theme.of(context).primaryColor,
+                              ),
                               SizedBox(width: 4),
                               Text(item.room),
                             ],
@@ -1161,7 +1565,11 @@ class CalendarDay {
   final String weekday;
   final int date;
   final bool hasClass;
-  CalendarDay({required this.weekday, required this.date, required this.hasClass});
+  CalendarDay({
+    required this.weekday,
+    required this.date,
+    required this.hasClass,
+  });
 }
 
 class ScheduleClass {
@@ -1170,7 +1578,13 @@ class ScheduleClass {
   final String time;
   final String teacher;
   final String room;
-  ScheduleClass({required this.title, required this.subtitle, required this.time, required this.teacher, required this.room});
+  ScheduleClass({
+    required this.title,
+    required this.subtitle,
+    required this.time,
+    required this.teacher,
+    required this.room,
+  });
 }
 
 class AIAssistantPage extends StatefulWidget {
@@ -1192,7 +1606,10 @@ class GroupChatPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(loc.t('onlyCurator'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            Text(
+              loc.t('onlyCurator'),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
             SizedBox(height: 12),
             Expanded(
               child: ListView.builder(
@@ -1206,7 +1623,13 @@ class GroupChatPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('${announcement.author} • ${announcement.time}', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                          Text(
+                            '${announcement.author} • ${announcement.time}',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                            ),
+                          ),
                           SizedBox(height: 8),
                           Text(announcement.message),
                         ],
@@ -1217,7 +1640,10 @@ class GroupChatPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 12),
-            Text(loc.t('curatorOnlyNote'), style: TextStyle(color: Colors.grey[600])),
+            Text(
+              loc.t('curatorOnlyNote'),
+              style: TextStyle(color: Colors.grey[600]),
+            ),
           ],
         ),
       ),
@@ -1229,6 +1655,7 @@ class _AIAssistantPageState extends State<AIAssistantPage> {
   final List<Message> _messages = [];
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  bool _isLoading = false;
 
   final Map<String, String> _quickAnswers = {
     'question1': 'answer1',
@@ -1237,27 +1664,36 @@ class _AIAssistantPageState extends State<AIAssistantPage> {
     'question4': 'answer4',
   };
 
-  void _sendMessage(String message) {
-    if (message.isNotEmpty) {
-      setState(() {
-        _messages.add(Message(text: message, isUser: true));
-        final loc = AppLocalizations.of(context);
-        final response = _getResponse(message, loc);
-        _messages.add(Message(text: response, isUser: false));
-      });
-      _controller.clear();
-      _scrollToBottom();
-    }
+  void _sendMessage(String message) async {
+    final trimmed = message.trim();
+    if (trimmed.isEmpty) return;
+
+    setState(() {
+      _messages.add(Message(text: trimmed, isUser: true));
+      _isLoading = true;
+    });
+    _controller.clear();
+    _scrollToBottom();
+
+    final loc = AppLocalizations.of(context);
+    final response = await _getResponse(trimmed, loc);
+
+    setState(() {
+      _messages.add(Message(text: response, isUser: false));
+      _isLoading = false;
+    });
+    _scrollToBottom();
   }
 
-  String _getResponse(String question, AppLocalizations loc) {
-    // Simple matching for quick questions
+  Future<String> _getResponse(String question, AppLocalizations loc) async {
     for (final entry in _quickAnswers.entries) {
       if (question.contains(loc.t(entry.key))) {
         return loc.t(entry.value);
       }
     }
-    return loc.t('aiResponse') + 'Это симуляция. Ваш вопрос: "$question". В реальном приложении здесь был бы ответ от ИИ.';
+
+    final result = await AIAssistantService(question).getResponse();
+    return result;
   }
 
   void _quickQuestion(String questionKey) {
@@ -1300,18 +1736,28 @@ class _AIAssistantPageState extends State<AIAssistantPage> {
               itemBuilder: (context, index) {
                 final message = _messages[index];
                 return Align(
-                  alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: message.isUser
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 4),
                     padding: EdgeInsets.all(12),
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.75,
+                    ),
                     decoration: BoxDecoration(
-                      color: message.isUser ? Theme.of(context).primaryColor : Colors.grey[200],
+                      color: message.isUser
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey[200],
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16),
-                        bottomLeft: message.isUser ? Radius.circular(16) : Radius.zero,
-                        bottomRight: message.isUser ? Radius.zero : Radius.circular(16),
+                        bottomLeft: message.isUser
+                            ? Radius.circular(16)
+                            : Radius.zero,
+                        bottomRight: message.isUser
+                            ? Radius.zero
+                            : Radius.circular(16),
                       ),
                     ),
                     child: Row(
@@ -1328,16 +1774,15 @@ class _AIAssistantPageState extends State<AIAssistantPage> {
                           child: Text(
                             message.text,
                             style: TextStyle(
-                              color: message.isUser ? Colors.white : Colors.black,
+                              color: message.isUser
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                         ),
                         if (message.isUser) ...[
                           SizedBox(width: 8),
-                          CircleAvatar(
-                            radius: 16,
-                            child: Text('Вы'[0]),
-                          ),
+                          CircleAvatar(radius: 16, child: Text('Вы'[0])),
                         ],
                       ],
                     ),
@@ -1351,19 +1796,42 @@ class _AIAssistantPageState extends State<AIAssistantPage> {
             color: Colors.grey[100],
             child: Column(
               children: [
-                Text(loc.t('quickQuestions'), style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(
+                  loc.t('quickQuestions'),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
                   runSpacing: 4,
-                  children: _quickAnswers.keys.map((key) => ActionChip(
-                    label: Text(loc.t(key)),
-                    onPressed: () => _quickQuestion(key),
-                  )).toList(),
+                  children: _quickAnswers.keys
+                      .map(
+                        (key) => ActionChip(
+                          label: Text(loc.t(key)),
+                          onPressed: () => _quickQuestion(key),
+                        ),
+                      )
+                      .toList(),
                 ),
               ],
             ),
           ),
+          if (_isLoading)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  SizedBox(width: 12),
+                  Text('ИИ готовит ответ...'),
+                ],
+              ),
+            ),
           Padding(
             padding: EdgeInsets.all(16),
             child: Row(
@@ -1380,7 +1848,9 @@ class _AIAssistantPageState extends State<AIAssistantPage> {
                 ),
                 SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: () => _sendMessage(_controller.text.trim()),
+                  onPressed: _isLoading
+                      ? null
+                      : () => _sendMessage(_controller.text.trim()),
                   child: Text(loc.t('send')),
                 ),
               ],
@@ -1396,33 +1866,63 @@ class ProfilePage extends StatelessWidget {
   final String userName;
   final VoidCallback onLogout;
   final List<Announcement> announcements;
-  ProfilePage({required this.userName, required this.onLogout, required this.announcements});
+  ProfilePage({
+    required this.userName,
+    required this.onLogout,
+    required this.announcements,
+  });
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
     final state = AppStateWidget.of(context);
-    return SafeArea(child: Scaffold(
-      appBar: AppBar(title: Text(loc.t('profileTitle'))),
-      body: ListView(
-        padding: EdgeInsets.all(16),
-        children: [
-            CircleAvatar(radius: 42, child: Text(userName.isNotEmpty ? userName[0] : 'U', style: TextStyle(fontSize: 32))),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: Text(loc.t('profileTitle'))),
+        body: ListView(
+          padding: EdgeInsets.all(16),
+          children: [
+            CircleAvatar(
+              radius: 42,
+              child: Text(
+                userName.isNotEmpty ? userName[0] : 'U',
+                style: TextStyle(fontSize: 32),
+              ),
+            ),
             SizedBox(height: 12),
-            Text(userName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+              userName,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 8),
             Text(loc.t('studentGroup'), style: TextStyle(color: Colors.grey)),
             SizedBox(height: 8),
             Text(loc.t('specialty'), style: TextStyle(color: Colors.grey[700])),
-            Text(loc.t('studentGpa'), style: TextStyle(color: Colors.grey[700])),
-            Text(loc.t('studentCredits'), style: TextStyle(color: Colors.grey[700])),
+            Text(
+              loc.t('studentGpa'),
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+            Text(
+              loc.t('studentCredits'),
+              style: TextStyle(color: Colors.grey[700]),
+            ),
             SizedBox(height: 16),
-            ListTile(leading: Icon(Icons.email), title: Text(loc.t('emailLabel'))),
-            ListTile(leading: Icon(Icons.phone), title: Text(loc.t('phoneLabel'))),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text(loc.t('emailLabel')),
+            ),
+            ListTile(
+              leading: Icon(Icons.phone),
+              title: Text(loc.t('phoneLabel')),
+            ),
             Divider(),
             SwitchListTile(
               title: Text(loc.t('darkMode')),
-              subtitle: Text(state._themeMode == ThemeMode.dark ? loc.t('darkTheme') : loc.t('lightTheme')),
+              subtitle: Text(
+                state._themeMode == ThemeMode.dark
+                    ? loc.t('darkTheme')
+                    : loc.t('lightTheme'),
+              ),
               value: state._themeMode == ThemeMode.dark,
               onChanged: state._toggleTheme,
               secondary: Icon(Icons.brightness_6),
@@ -1433,8 +1933,14 @@ class ProfilePage extends StatelessWidget {
               trailing: DropdownButton<Locale>(
                 value: state._locale,
                 items: [
-                  DropdownMenuItem(value: Locale('ru'), child: Text(loc.t('languageRussian'))),
-                  DropdownMenuItem(value: Locale('kk'), child: Text(loc.t('languageKazakh'))),
+                  DropdownMenuItem(
+                    value: Locale('ru'),
+                    child: Text(loc.t('languageRussian')),
+                  ),
+                  DropdownMenuItem(
+                    value: Locale('kk'),
+                    child: Text(loc.t('languageKazakh')),
+                  ),
                 ],
                 onChanged: (value) {
                   if (value != null) {
@@ -1444,7 +1950,10 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Divider(),
-            Text(loc.t('notificationsTitle'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            Text(
+              loc.t('notificationsTitle'),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
             SwitchListTile(
               title: Text(loc.t('notifyClasses')),
               value: state._notifyClasses,
@@ -1469,22 +1978,35 @@ class ProfilePage extends StatelessWidget {
               subtitle: Text(loc.t('onlyCurator')),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) => GroupChatPage(announcements: announcements)));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => GroupChatPage(announcements: announcements),
+                  ),
+                );
               },
             ),
             ElevatedButton.icon(
               onPressed: () {
-                showDialog(context: context, builder: (_) => AlertDialog(
-                  title: Text(loc.t('logoutTitle')),
-                  content: Text(loc.t('logoutConfirm')),
-                  actions: [
-                    TextButton(onPressed: () => Navigator.pop(context), child: Text(loc.t('cancel'))),
-                    TextButton(onPressed: () {
-                      Navigator.pop(context);
-                      onLogout();
-                    }, child: Text(loc.t('logoutButton'))),
-                  ],
-                ));
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: Text(loc.t('logoutTitle')),
+                    content: Text(loc.t('logoutConfirm')),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(loc.t('cancel')),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          onLogout();
+                        },
+                        child: Text(loc.t('logoutButton')),
+                      ),
+                    ],
+                  ),
+                );
               },
               icon: Icon(Icons.exit_to_app),
               label: Text(loc.t('logoutButton')),
@@ -1492,7 +2014,8 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 16),
           ],
+        ),
       ),
-    ));
+    );
   }
 }
