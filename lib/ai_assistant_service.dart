@@ -2,23 +2,27 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AIAssistantService {
-  // Вставьте сюда ваш ключ Google Generative API.
-  // Если хотите использовать другой сервис, замените URL и заголовки.
-  static const String apiKey = 'AIzaSyCP3FrypMbL59NONLHMxcm6-n6UUAm3y5U';
+  // Для локального Ollama используйте: http://localhost:11434 (для веб)
+  // или http://192.168.X.X:11434 (для телефона, замените на IP вашего ПК)
+  static const String ollamaUrl = 'http://localhost:11434';
+  static const String ollamaModel =
+      'Qwen2.5:latest'; // или другая модель: mistral, neural-chat и т.д.
 
   final String prompt;
 
   AIAssistantService(this.prompt);
 
   Future<String> getResponse() async {
-    final url = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generate?key=$apiKey',
-    );
+    return _getOllamaResponse(prompt);
+  }
+
+  Future<String> _getOllamaResponse(String prompt) async {
+    final url = Uri.parse('$ollamaUrl/api/generate');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
-      'prompt': {'text': prompt},
-      'temperature': 0.7,
-      'maxOutputTokens': 256,
+      'model': ollamaModel,
+      'prompt': prompt,
+      'stream': false,
     });
 
     try {
@@ -26,15 +30,15 @@ class AIAssistantService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data is Map &&
-            data['candidates'] is List &&
-            data['candidates'].isNotEmpty) {
-          return data['candidates'][0]['output'] ?? 'Пустой ответ от API';
+            data['response'] is String &&
+            data['response'].isNotEmpty) {
+          return data['response'];
         }
-        return 'Неожиданный формат ответа от API';
+        return 'Пустой ответ от Ollama';
       }
-      return 'Ошибка Google API: ${response.statusCode} - ${response.body}';
+      return 'Ошибка Ollama: ${response.statusCode} - ${response.body}';
     } catch (e) {
-      return 'Ошибка сети: $e';
+      return 'Ошибка подключения к Ollama ($ollamaUrl): $e\n\nУбедитесь, что:\n1. Ollama запущен\n2. Модель загружена (ollama pull $ollamaModel)\n3. Если на телефоне - используйте IP вашего ПК вместо localhost';
     }
   }
 }
